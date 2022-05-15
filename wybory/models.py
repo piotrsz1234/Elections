@@ -19,5 +19,5 @@ class OsobaWybory(models.Model):
     czyKandydat = models.BooleanField(default=False)
 
 class Glos(models.Model):
-    wyboryId = models.ForeignKey(Wybory)
-    kandydatOsobaID = models.ForeignKey(Osoba)
+    wyboryId = models.ForeignKey(Wybory, on_delete=models.CASCADE)
+    kandydatOsobaID = models.ForeignKey(Osoba, on_delete=models.CASCADE)
