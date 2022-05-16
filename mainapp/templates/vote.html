@@ -1,0 +1,18 @@
+<form action="sendVote" method="post">
+    {% csrf_token %}
+    {% for candidate in candidate_list %}
+        <div class="row">
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="candidateSelected" id="candidateSelected_{{ candidate.OsobaId.pesel }}">
+                    <label class="form-check-label" for="candidateSelected_{{ candidate.OsobaId.pesel }}">{{ candidate.OsobaId.imie }} {{ candidate.OsobaId.nazwisko }}</label>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="row mt-2">
+        <div class="col-6 offset-6">
+            <button type="submit" class="btn btn-primary">Vote</button>
+        </div>
+    </div>
+</form>

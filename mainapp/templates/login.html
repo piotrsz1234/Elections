@@ -1,0 +1,32 @@
+<form action="/loginUser" method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-6 offset-6">
+            <div class="form-group">
+                <label class="required label">First Name</label>
+                <input class="form-control form-control-sm" name="firstName" />
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-6 offset-6">
+            <div class="form-group">
+                <label class="required label">Last Name</label>
+                <input class="form-control form-control-sm" name="lastName" />
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-6 offset-6">
+            <div class="form-group">
+                <label class="required label">PESEL</label>
+                <input class="form-control form-control-sm" name="pesel" minlength="11" maxlength="11" />
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-6 offset-6">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+    </div>
+</form>
