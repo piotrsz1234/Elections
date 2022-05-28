@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div>Welcome {{ user.imie }} {{ user.nazwisko }}</div>
+
+    {% for election in elections %}
+        <div>{{ election.wyboryId.nazwa }}: {{ election.wyboryId.poczatekWyborow }} {{ election.wyboryId.koniecWyborow }}</div>
+    {% endfor %}
+{% endblock %}
