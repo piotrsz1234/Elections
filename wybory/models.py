@@ -15,7 +15,7 @@ class Wybory(models.Model):
 class Osoba(models.Model):
     imie = models.CharField(max_length=20)
     nazwisko = models.CharField(max_length=50)
-    pesel = models.CharField(max_length=11)
+    pesel = models.CharField(max_length=11, unique=True)
 
     def __str__(self):
         return f'{self.imie} {self.nazwisko}'
@@ -28,7 +28,7 @@ class OsobaWybory(models.Model):
     czyKandydat = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.OsobaId.imie} {self.OsobaId.nazwisko}'
+        return f'{self.OsobaId.imie} {self.OsobaId.nazwisko} - {self.wyboryId.nazwa}'
 
 
 class Glos(models.Model):

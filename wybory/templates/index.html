@@ -4,6 +4,8 @@
     <div>Welcome {{ user.imie }} {{ user.nazwisko }}</div>
 
     {% for election in elections %}
-        <div>{{ election.wyboryId.nazwa }}: {{ election.wyboryId.poczatekWyborow }} {{ election.wyboryId.koniecWyborow }}</div>
+        <div>{{ election.wyboryId.nazwa }}: {{ election.wyboryId.poczatekWyborow }} {{ election.wyboryId.koniecWyborow }}
+            - <a href="{% url 'vote' election.wyboryId_id %}">głosuj</a> /
+            <a href="{% url 'electionResults' election.wyboryId_id %}">wyniki</a></div>
     {% endfor %}
 {% endblock %}
