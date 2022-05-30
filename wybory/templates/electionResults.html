@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h4>
+        Wyniki wyborów: {{ election.nazwa }}
+    </h4>
+    <br/>
+    {% for candidate in candidates_vote_count %}
+        <p>Kandydat: {{ candidate.name }} - {{ candidate.percent }}% ({{ candidate.count }} głosów)</p>
+    {% endfor %}
+{% endblock %}
