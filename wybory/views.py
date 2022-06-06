@@ -9,7 +9,7 @@ from django.utils import timezone
 @login_required
 def index(request):
     user = Osoba.objects.filter(pesel=request.session['UserID'])[0]
-    elections = OsobaWybory.objects.order_by('wyboryId_id').filter(OsobaId_id=user.pk)[:10]
+    elections = OsobaWybory.objects.order_by('wyboryId_id').filter(osobaId_id=user.pk)[:10]
     return render(request, "index.html", {'user': user, 'elections': elections})
 
 
@@ -23,7 +23,7 @@ def vote(request, election_id):
     elections_people = OsobaWybory.objects.filter(wyboryId_id=election_id)
 
     # użytkownik
-    user = elections_people.filter(OsobaId__pesel=request.session['UserID'])
+    user = elections_people.filter(osobaId__pesel=request.session['UserID'])
 
     # jeśli użytkownika nie ma w wborach
     if not user:
@@ -35,13 +35,13 @@ def vote(request, election_id):
     candidates_in_elections = elections_people.filter(czyKandydat__exact=True)
 
     # krotka z id kandydata i jego nazwa do formularza glosowania
-    candidates = [(k.OsobaId.id, f'{k.OsobaId.imie} {k.OsobaId.nazwisko}') for k in candidates_in_elections]
+    candidates = [(k.osobaId.id, f'{k.osobaId.imie} {k.osobaId.nazwisko}') for k in candidates_in_elections]
 
     if request.method == 'POST':
         form = VoteForm(candidates, request.POST)
         if form.is_valid():
             # utworzenie glosu i go zapisanie w bazei
-            glos = Glos(wyboryId_id=election_id, kandydatOsobaID_id=form.cleaned_data['kandydaci'])
+            glos = Glos(wyboryId_id=election_id, kandydatOsobaId_id=form.cleaned_data['kandydaci'])
             glos.save()
 
             # oznaczenie ze urzytkownik oddal glos i zapisanie w bazie
@@ -70,10 +70,10 @@ def election_results(request, election_id):
     candidates_and_votes = []
     for candidat in candidates:
         # liczba glosow na kandydata
-        candidate_total_vote = Glos.objects.filter(kandydatOsobaID=candidat.OsobaId).count()
+        candidate_total_vote = Glos.objects.filter(kandydatOsobaId=candidat.osobaId).count()
 
         candidates_and_votes.append({
-            'name': f'{candidat.OsobaId.imie} {candidat.OsobaId.nazwisko}',
+            'name': f'{candidat.osobaId.imie} {candidat.osobaId.nazwisko}',
             'count': candidate_total_vote,
             'percent': candidate_total_vote / total_vote_count * 100
         })
@@ -83,3 +83,4 @@ def election_results(request, election_id):
         'candidates_vote_count': candidates_and_votes,
         'total_vote_count': total_vote_count
     })
+
