@@ -28,7 +28,7 @@ class OsobaWybory(models.Model):
     czyKandydat = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.OsobaId.imie} {self.OsobaId.nazwisko} - {self.wyboryId.nazwa}'
+        return f'{self.osobaId.imie} {self.osobaId.nazwisko} - {self.wyboryId.nazwa}'
 
 
 class Glos(models.Model):
@@ -36,4 +36,4 @@ class Glos(models.Model):
     kandydatOsobaId = models.ForeignKey(Osoba, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.wyboryId.nazwa} - {self.kandydatOsobaID.imie} {self.kandydatOsobaID.nazwisko}'
+        return f'{self.wyboryId.nazwa} - {self.kandydatOsobaId.imie} {self.kandydatOsobaId.nazwisko}'
