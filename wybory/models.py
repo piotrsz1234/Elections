@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 # Create your models here.
@@ -6,7 +7,14 @@ class Wybory(models.Model):
     nazwa = models.CharField(max_length=50)
     poczatekWyborow = models.DateTimeField()
     koniecWyborow = models.DateTimeField()
-    maxKandydatow = models.IntegerField()
+    maxWybranychKandydatow = models.IntegerField(default=1)
+
+    def clean(self):
+        if self.poczatekWyborow > self.koniecWyborow:
+            raise ValidationError("Data początka wyborów musi być wcześniejsza niż data końca wyborów")
+        if self.maxWybranychKandydatow < 1:
+            raise ValidationError("Liczba kandydatów musi być większa od 0")
+
 
     def __str__(self):
         return self.nazwa
@@ -16,6 +24,10 @@ class Osoba(models.Model):
     imie = models.CharField(max_length=20)
     nazwisko = models.CharField(max_length=50)
     pesel = models.CharField(max_length=11, unique=True)
+
+    def clean(self):
+        if len(self.pesel) != 11 or not self.pesel.isnumeric():
+            raise ValidationError("pesel musi składać się tylko z 11 cyfr")
 
     def __str__(self):
         return f'{self.imie} {self.nazwisko}'

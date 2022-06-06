@@ -1,5 +1,4 @@
 from django import forms
-from django.core.exceptions import ValidationError
 
 from .models import Osoba
 
@@ -8,7 +7,7 @@ class VoteForm(forms.Form):
 
     def __init__(self, candidates, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['kandydaci'] = forms.ChoiceField(choices=candidates, widget=forms.RadioSelect)
+        self.fields['kandydaci'] = forms.MultipleChoiceField(choices=candidates, widget=forms.CheckboxSelectMultiple)
 
     kandydaci = forms.ChoiceField()
 
@@ -22,9 +21,9 @@ class LoginForm(forms.Form):
         pesel = self.cleaned_data['pesel']
 
         if len(pesel) != 11:
-            raise ValidationError("Pesel musi mieć długość 11 cyfr")
+            raise forms.ValidationError("Pesel musi mieć długość 11 cyfr")
         if not pesel.isnumeric():
-            raise ValidationError("Pesel musi składać się tylko z cyfr")
+            raise forms.ValidationError("Pesel musi składać się tylko z cyfr")
 
         return pesel
 
@@ -38,9 +37,9 @@ class LoginForm(forms.Form):
         if pesel and imie and nazwisko:
             osoba = Osoba.objects.filter(pesel=pesel)
             if not osoba:
-                raise ValidationError("Nie ma takiej osoby")
+                raise forms.ValidationError("Nie ma takiej osoby")
             elif osoba[0].imie != imie or osoba[0].nazwisko != nazwisko:
-                raise ValidationError("Nie ma takiej osoby")
+                raise forms.ValidationError("Nie ma takiej osoby")
 
 
     def __init__(self, *args, **kwargs):
