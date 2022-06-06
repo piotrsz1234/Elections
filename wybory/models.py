@@ -23,7 +23,7 @@ class Osoba(models.Model):
 
 class OsobaWybory(models.Model):
     wyboryId = models.ForeignKey(Wybory, on_delete=models.CASCADE)
-    OsobaId = models.ForeignKey(Osoba, on_delete=models.CASCADE)
+    osobaId = models.ForeignKey(Osoba, on_delete=models.CASCADE)
     czyOddalGlos = models.BooleanField(default=False)
     czyKandydat = models.BooleanField(default=False)
 
@@ -33,7 +33,7 @@ class OsobaWybory(models.Model):
 
 class Glos(models.Model):
     wyboryId = models.ForeignKey(Wybory, on_delete=models.CASCADE)
-    kandydatOsobaID = models.ForeignKey(Osoba, on_delete=models.CASCADE)
+    kandydatOsobaId = models.ForeignKey(Osoba, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.wyboryId.nazwa} - {self.kandydatOsobaID.imie} {self.kandydatOsobaID.nazwisko}'
