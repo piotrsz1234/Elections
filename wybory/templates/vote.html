@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ election.nazwa }}</h1>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Głosuj">
-    </form>
+    <div class="container-fluid mt-5">
+    <div class="col-6 offset-3">
+        <h3>Głosujesz w wyborach: {{ election.nazwa }}</h3>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Głosuj">
+        </form>
+    </div>
+
+    </div>
 {% endblock %}
