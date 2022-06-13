@@ -19,6 +19,9 @@ class Wybory(models.Model):
     def __str__(self):
         return self.nazwa
 
+    def __str__(self):
+        return self.nazwa
+
 
 class Osoba(models.Model):
     imie = models.CharField(max_length=20)
@@ -35,7 +38,7 @@ class Osoba(models.Model):
 
 class OsobaWybory(models.Model):
     wyboryId = models.ForeignKey(Wybory, on_delete=models.CASCADE)
-    OsobaId = models.ForeignKey(Osoba, on_delete=models.CASCADE)
+    osobaId = models.ForeignKey(Osoba, on_delete=models.CASCADE)
     czyOddalGlos = models.BooleanField(default=False)
     czyKandydat = models.BooleanField(default=False)
 

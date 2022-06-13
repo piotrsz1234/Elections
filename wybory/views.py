@@ -4,13 +4,18 @@ from wybory.models import *
 from .forms import VoteForm
 from .decorator import login_required
 from django.utils import timezone
+from .dtos import ElectionDto
 
 
 @login_required
 def index(request):
     user = Osoba.objects.filter(pesel=request.session['UserID'])[0]
-    elections = OsobaWybory.objects.order_by('wyboryId_id').filter(OsobaId_id=user.pk)[:10]
-    return render(request, "index.html", {'user': user, 'elections': elections})
+    elections = OsobaWybory.objects.order_by('wyboryId_id').filter(osobaId_id=user.pk)[:10]
+    electionsDtos = []
+    for e in elections:
+        electionsDtos.append(ElectionDto(e.wyboryId_id, e.wyboryId.nazwa,e.wyboryId.poczatekWyborow.strftime("%m/%d/%Y %H:%M"),e.wyboryId.koniecWyborow.strftime("%m/%d/%Y %H:%M")))
+
+    return render(request, "index.html", {'user': user, 'elections': electionsDtos})
 
 
 @login_required

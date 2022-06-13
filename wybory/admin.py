@@ -1,9 +1,37 @@
 from django.contrib import admin
-
-# Register your models here.
 from wybory.models import *
 
-admin.site.register(Osoba)
-admin.site.register(OsobaWybory)
-admin.site.register(Wybory)
-admin.site.register(Glos)
+@admin.register(Osoba)
+class OsobaAdmin(admin.ModelAdmin):
+    list_display = ('imie', 'nazwisko', 'pesel')
+    list_filter = ('imie','nazwisko')
+    #readonly_fields = ('pesel',)
+    search_fields = ('imie', 'nazwisko')
+    ordering = ('imie', 'nazwisko', 'pesel')
+    pass
+
+
+@admin.register(OsobaWybory)
+class OsobaWyboryAdmin(admin.ModelAdmin):
+    list_display = ('wyboryId', 'osobaId', 'czyOddalGlos', 'czyKandydat')
+    list_filter = ('wyboryId', 'osobaId', 'czyOddalGlos', 'czyKandydat')
+    search_fields = ('wyboryId', 'osobaId')
+    ordering = ('wyboryId', 'osobaId')
+    pass
+
+@admin.register(Wybory)
+class WyboryAdmin(admin.ModelAdmin):
+    list_display = ('nazwa', 'maxKandydatow', 'poczatekWyborow', 'koniecWyborow')
+    list_filter = ('nazwa', 'poczatekWyborow', 'koniecWyborow')
+    search_fields = ('nazwa', 'poczatekWyborow', 'koniecWyborow')
+    ordering = ('poczatekWyborow', 'koniecWyborow', 'nazwa', 'maxKandydatow')
+    pass
+
+@admin.register(Glos)
+class GlosAdmin(admin.ModelAdmin):
+    list_display = ('wyboryId', 'kandydatOsobaId')
+    list_filter = ('wyboryId', 'kandydatOsobaId')
+    search_fields = ('wyboryId', 'kandydatOsobaId')
+    ordering = ('wyboryId', 'kandydatOsobaId')
+    pass
+
