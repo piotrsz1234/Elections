@@ -28,7 +28,7 @@ def vote(request, election_id):
     elections_people = OsobaWybory.objects.filter(wyboryId_id=election_id)
 
     # użytkownik
-    user = elections_people.filter(OsobaId__pesel=request.session['UserID'])
+    user = elections_people.filter(osobaId__pesel=request.session['UserID'])
 
     # jeśli użytkownika nie ma w wborach
     if not user:

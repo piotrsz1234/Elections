@@ -21,10 +21,10 @@ class OsobaWyboryAdmin(admin.ModelAdmin):
 
 @admin.register(Wybory)
 class WyboryAdmin(admin.ModelAdmin):
-    list_display = ('nazwa', 'maxKandydatow', 'poczatekWyborow', 'koniecWyborow')
+    list_display = ('nazwa', 'maxWybranychKandydatow', 'poczatekWyborow', 'koniecWyborow')
     list_filter = ('nazwa', 'poczatekWyborow', 'koniecWyborow')
     search_fields = ('nazwa', 'poczatekWyborow', 'koniecWyborow')
-    ordering = ('poczatekWyborow', 'koniecWyborow', 'nazwa', 'maxKandydatow')
+    ordering = ('poczatekWyborow', 'koniecWyborow', 'nazwa', 'maxWybranychKandydatow')
     pass
 
 @admin.register(Glos)
