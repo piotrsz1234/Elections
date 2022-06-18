@@ -40,14 +40,18 @@ def vote(request, election_id):
     candidates_in_elections = elections_people.filter(czyKandydat__exact=True)
 
     # krotka z id kandydata i jego nazwa do formularza glosowania
-    candidates = [(k.osobaId.id, f'{k.osobaId.imie} {k.osobaId.nazwisko}') for k in candidates_in_elections]
+    candidates = [(k.OsobaId.id, f'{k.OsobaId.imie} {k.OsobaId.nazwisko}') for k in candidates_in_elections]
 
     if request.method == 'POST':
         form = VoteForm(candidates, request.POST)
         if form.is_valid():
+            kandydaci = form.cleaned_data['kandydaci']
+            if len(kandydaci) < 1 or len(kandydaci) > election.maxWybranychKandydatow:
+                return HttpResponse(f"możesz zagłosować na max {election.maxWybranychKandydatow} kandydatów")
             # utworzenie glosu i go zapisanie w bazei
-            glos = Glos(wyboryId_id=election_id, kandydatOsobaId_id=form.cleaned_data['kandydaci'])
-            glos.save()
+            for kandydat in kandydaci:
+                glos = Glos(wyboryId_id=election_id, kandydatOsobaID_id=kandydat)
+                glos.save()
 
             # oznaczenie ze urzytkownik oddal glos i zapisanie w bazie
             user[0].czyOddalGlos = True
@@ -75,12 +79,12 @@ def election_results(request, election_id):
     candidates_and_votes = []
     for candidat in candidates:
         # liczba glosow na kandydata
-        candidate_total_vote = Glos.objects.filter(kandydatOsobaId=candidat.osobaId).count()
-
+        candidate_total_vote = Glos.objects.filter(wyboryId=election_id).filter(kandydatOsobaID=candidat.OsobaId).count()
+        percent =  round(candidate_total_vote / total_vote_count * 100, 2) if total_vote_count > 0 else 0
         candidates_and_votes.append({
-            'name': f'{candidat.osobaId.imie} {candidat.osobaId.nazwisko}',
+            'name': f'{candidat.OsobaId.imie} {candidat.OsobaId.nazwisko}',
             'count': candidate_total_vote,
-            'percent': candidate_total_vote / total_vote_count * 100
+            'percent': percent
         })
 
     return render(request, 'electionResults.html', {
@@ -88,4 +92,3 @@ def election_results(request, election_id):
         'candidates_vote_count': candidates_and_votes,
         'total_vote_count': total_vote_count
     })
-
