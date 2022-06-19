@@ -48,4 +48,4 @@ class Glos(models.Model):
     kandydatOsobaId = models.ForeignKey(Osoba, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.wyboryId.nazwa} - {self.kandydatOsobaID.imie} {self.kandydatOsobaID.nazwisko}'
+        return f'{self.wyboryId.nazwa} - {self.kandydatOsobaId.imie} {self.kandydatOsobaId.nazwisko}'

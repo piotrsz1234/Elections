@@ -10,20 +10,20 @@
     <div>Welcome {{ user.imie }} {{ user.nazwisko }}</div>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="old-elections" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+            <a class="nav-link active" id="old-elections" data-toggle="tab" href="#old" role="tab" aria-controls="home"
                aria-selected="true">Przeszłe wybory</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="current-elections" data-toggle="tab" href="#profile" role="tab"
+            <a class="nav-link" id="current-elections" data-toggle="tab" href="#current" role="tab"
                aria-controls="profile" aria-selected="false">Trwające wybory</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="future-elections" data-toggle="tab" href="#contact" role="tab"
+            <a class="nav-link" id="future-elections" data-toggle="tab" href="#future" role="tab"
                aria-controls="contact" aria-selected="false">Przyszłe wybory</a>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="old-elections">
+        <div class="tab-pane fade show active" id="old" role="tabpanel" aria-labelledby="old-elections">
             <div class="list-group">
                 {% for election in elections %}
                     {% if election.electionsEnd == True %}
@@ -41,7 +41,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="current-elections">
+        <div class="tab-pane fade" id="current" role="tabpanel" aria-labelledby="current-elections">
             <div class="list-group">
                 {% for election in elections %}
                     {% if election.votingTime == True %}
@@ -66,7 +66,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="future-elections">
+        <div class="tab-pane fade" id="future" role="tabpanel" aria-labelledby="future-elections">
             <div class="list-group">
                 {% for election in elections %}
                     {% if election.votingTime == False and election.electionsEnd == False %}
