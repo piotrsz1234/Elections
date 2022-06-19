@@ -8,6 +8,7 @@ var Vote = /** @class */ (function () {
         this.assignControls = function () {
             _this.mainDiv = $('#divVote');
             _this.btnSave = _this.mainDiv.find('[name="btnSave"]');
+            _this.txtCaptcha = _this.mainDiv.find('[name="captcha_1"]');
         };
         this.initControls = function () {
             _this.mainDiv.undelegate('input[name="kandydaci"]', 'change').delegate('input[name="kandydaci"]', 'change', function () {
@@ -19,6 +20,8 @@ var Vote = /** @class */ (function () {
                     _this.btnSave.addClass('disabled');
                 }
             });
+            _this.txtCaptcha.addClass('form-control form-control-sm w-30 mt-2');
+            _this.txtCaptcha.attr('placeholder', 'Enter captcha text');
         };
     }
     return Vote;
