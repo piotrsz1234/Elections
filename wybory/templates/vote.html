@@ -1,14 +1,37 @@
 {% extends "base.html" %}
+{% load static %}
 
+{% block staticFiles %}
+    <script src="{% static 'scripts/Vote.js' %}"></script>
+    <link href="{% static 'styles/vote.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
 {% block content %}
-    <div class="container-fluid mt-5">
+    <div class="container-fluid mt-5" id="divVote">
         <div class="col-6 offset-3">
             <h3>Głosujesz w wyborach: {{ election.nazwa }}</h3>
             <p>Maksymalna liczba głosów które możesz oddać: {{ election.maxWybranychKandydatow }}</p>
+            <div class="validation-error">{{ validationError }}</div>
             <form action="" method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Głosuj">
+                {% for id, label in form.fields.kandydaci.choices %}
+                    <div class="row pt-2 pb-2">
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="kandydaci" value="{{ id }}"
+                                       id="cbxCandidate{{ id }}">
+                                <label class="form-check-label" for="cbxCandidate{{ id }}">
+                                    {{ label }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="row pt-2 pb-2">
+                    <div class="col-4">
+                        <input type="submit" class="btn btn-primary disabled" name="btnSave" value="Głosuj">
+                    </div>
+
+                </div>
             </form>
         </div>
     </div>

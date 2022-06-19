@@ -5,7 +5,6 @@ from .models import Osoba
 
 class VoteForm(forms.Form):
     kandydaci = forms.ChoiceField()
-
     def __init__(self, candidates, election, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['kandydaci'] = forms.MultipleChoiceField(choices=candidates, widget=forms.CheckboxSelectMultiple)

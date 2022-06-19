@@ -9,11 +9,7 @@ var Index = /** @class */ (function () {
             var elems = $('.sp-calc-time[data-time]');
             elems.each(function (index, Elem) {
                 var item = $(Elem);
-                var duration = moment.duration(moment(item.attr('data-time')).diff(moment()));
-                //const daysLeft = ;
-                //const hoursLeft: number = moment(item.attr('data-time')).diff(now, 'hours');
-                //const minutesLeft: number = moment(item.attr('data-time')).diff(now, 'minutes');
-                //const secondsLeft: number = moment(item.attr('data-time')).diff(now, 'seconds');
+                var duration = moment.duration(moment.utc(item.attr('data-time')).diff(moment()));
                 item.text("Zosta\u0142o " + duration.days() + " dni, " + duration.hours() + " godzin " + duration.minutes() + " minut, " + duration.seconds() + " sekund");
             });
         };

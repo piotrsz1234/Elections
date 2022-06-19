@@ -52,7 +52,7 @@ def vote(request, election_id):
 
     # krotka z id kandydata i jego nazwa do formularza glosowania
     candidates = [(k.osobaId.id, f'{k.osobaId.imie} {k.osobaId.nazwisko}') for k in candidates_in_elections]
-
+    validationError = ''
     if request.method == 'POST':
         form = VoteForm(candidates, election, request.POST)
         if form.is_valid():
@@ -67,10 +67,12 @@ def vote(request, election_id):
             user[0].czyOddalGlos = True
             user[0].save()
             return redirect('index')
+        else:
+            validationError = 'Możesz wybrać maksymalnie ' + election.maxWybranychKandydatow.__str__() + ' kandydatów'
     else:
         form = VoteForm(candidates, election)
 
-    return render(request, 'vote.html', {'form': form, 'election': election})
+    return render(request, 'vote.html', {'form': form, 'election': election, 'validationError': validationError})
 
 
 def election_results(request, election_id):
