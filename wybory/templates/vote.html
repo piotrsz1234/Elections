@@ -26,6 +26,14 @@
                         </div>
                     </div>
                 {% endfor %}
+                {% if form.captcha.errors %}
+                    <ul>
+                        {% for error in form.captcha.errors %}
+                            <div class="validation-error">{{ error|escape }}</div>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {{ form.captcha }}
                 <div class="row pt-2 pb-2">
                     <div class="col-4">
                         <input type="submit" class="btn btn-primary disabled" name="btnSave" value="Głosuj">

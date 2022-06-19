@@ -1,76 +1,83 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block staticFiles %}
+    <script src="{% static 'scripts/Login.js' %}"></script>
+{% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-6 offset-6">
-            <div class="form-group">
-                <ul>
-                    {% for error in form.non_field_errors %}
-                        <li><strong>{{ error }}</strong></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <form action="" method="post">
-        {% csrf_token %}
+    <div id="divLogin">
         <div class="row">
             <div class="col-6 offset-6">
                 <div class="form-group">
-                    {{ form.imie.errors }}
-                    {{ form.imie.label_tag }}
-                    {{ form.imie }}
+                    <ul>
+                        {% for error in form.non_field_errors %}
+                            <li><strong>{{ error }}</strong></li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <div class="row mt-2">
-            <div class="col-6 offset-6">
-                <div class="form-group">
-                    {{ form.nazwisko.errors }}
-                    {{ form.nazwisko.label_tag }}
-                    {{ form.nazwisko }}
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-6 offset-6">
+                    <div class="form-group">
+                        {{ form.imie.errors }}
+                        {{ form.imie.label_tag }}
+                        {{ form.imie }}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row mt-2">
-            <div class="col-6 offset-6">
-                <div class="form-group">
-                    {% if form.pesel.errors %}
-                        <ul>
-                            {% for error in form.pesel.errors %}
-                                <li><strong>{{ error|escape }}</strong></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {{ form.pesel.label_tag }}
-                    {{ form.pesel }}
+            <div class="row mt-2">
+                <div class="col-6 offset-6">
+                    <div class="form-group">
+                        {{ form.nazwisko.errors }}
+                        {{ form.nazwisko.label_tag }}
+                        {{ form.nazwisko }}
+                    </div>
                 </div>
             </div>
-        </div>
 
-    <div class="row mt-2">
-            <div class="col-6 offset-6">
-                <div class="form-group">
-                    {% if form.captcha.errors %}
-                        <ul>
-                            {% for error in form.captcha.errors %}
-                                <li><strong>{{ error|escape }}</strong></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {{ form.captcha.label_tag }}
-                    {{ form.captcha }}
+            <div class="row mt-2">
+                <div class="col-6 offset-6">
+                    <div class="form-group">
+                        {% if form.pesel.errors %}
+                            <ul>
+                                {% for error in form.pesel.errors %}
+                                    <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {{ form.pesel.label_tag }}
+                        {{ form.pesel }}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row mt-2">
-            <div class="col-6 offset-6">
-                <input type="submit" class="btn btn-primary" value="Zaloguj się">
+            <div class="row mt-2">
+                <div class="col-6 offset-6">
+                    <div class="form-group">
+                        {% if form.captcha.errors %}
+                            <ul>
+                                {% for error in form.captcha.errors %}
+                                    <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {{ form.captcha }}
+                    </div>
+                </div>
             </div>
-        </div>
-    </form>
+
+            <div class="row mt-2">
+                <div class="col-6 offset-6">
+                    <input type="submit" class="btn btn-primary" value="Zaloguj się">
+                </div>
+            </div>
+        </form>
+    </div>
+
 {% endblock %}

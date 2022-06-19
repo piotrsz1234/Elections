@@ -52,7 +52,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mainapp.urls'
-
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
