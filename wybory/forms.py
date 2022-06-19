@@ -1,4 +1,5 @@
 from django import forms
+from captcha.fields import CaptchaField
 
 from .models import Osoba
 
@@ -22,6 +23,7 @@ class LoginForm(forms.Form):
     imie = forms.CharField(max_length=20)
     nazwisko = forms.CharField(max_length=50)
     pesel = forms.CharField(max_length=11)
+    captcha = CaptchaField()
 
     def clean_pesel(self):
         pesel = self.cleaned_data['pesel']

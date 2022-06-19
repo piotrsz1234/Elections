@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from wybory.models import *
 from .forms import VoteForm
 from .decorator import login_required
@@ -31,7 +31,8 @@ def index(request):
 
 @login_required
 def vote(request, election_id):
-    election = Wybory.objects.get(pk=election_id)
+    election = get_object_or_404(Wybory, pk=election_id)
+
     if not isVotingTime(election.poczatekWyborow, election.koniecWyborow):
         return render(request, 'error.html', {'message': "To nie czas na glosowanie"})
 
@@ -105,7 +106,7 @@ def isElectionsEnd(end):
 
 
 def get_results(election_id):
-    election = Wybory.objects.get(pk=election_id)
+    election = get_object_or_404(Wybory, pk=election_id)
 
     if not isElectionsEnd(election.koniecWyborow):
         return False

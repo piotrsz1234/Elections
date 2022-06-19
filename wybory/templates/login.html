@@ -51,6 +51,22 @@
             </div>
         </div>
 
+    <div class="row mt-2">
+            <div class="col-6 offset-6">
+                <div class="form-group">
+                    {% if form.captcha.errors %}
+                        <ul>
+                            {% for error in form.captcha.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {{ form.captcha.label_tag }}
+                    {{ form.captcha }}
+                </div>
+            </div>
+        </div>
+
         <div class="row mt-2">
             <div class="col-6 offset-6">
                 <input type="submit" class="btn btn-primary" value="Zaloguj się">
