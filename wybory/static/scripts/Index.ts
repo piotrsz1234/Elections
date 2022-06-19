@@ -9,8 +9,12 @@ class Index {
         let elems = $('.sp-calc-time[data-time]');
         elems.each((index: number, Elem: Element) => {
             const item = $(Elem);
-            const timeLeft = moment(moment(item.attr('data-time')).diff(moment()));
-            item.text(`Zostało ${timeLeft.format('d')} dni, ${timeLeft.format('h')} godzin ${timeLeft.format('mm')} minut, ${timeLeft.format('ss')} sekund`);
+            const duration = moment.duration(moment(item.attr('data-time')).diff(moment()));
+            //const daysLeft = ;
+            //const hoursLeft: number = moment(item.attr('data-time')).diff(now, 'hours');
+            //const minutesLeft: number = moment(item.attr('data-time')).diff(now, 'minutes');
+            //const secondsLeft: number = moment(item.attr('data-time')).diff(now, 'seconds');
+            item.text(`Zostało ${duration.days()} dni, ${duration.hours()} godzin ${duration.minutes()} minut, ${duration.seconds()} sekund`);
         });
     }
 }
