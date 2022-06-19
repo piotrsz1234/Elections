@@ -1,9 +1,11 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from wybory.models import *
 from .forms import VoteForm
 from .decorator import login_required
 from django.utils import timezone
 from .dtos import ElectionDto
+from .utils import render_to_pdf
 
 
 @login_required
@@ -72,12 +74,40 @@ def vote(request, election_id):
 
 
 def election_results(request, election_id):
+    context = get_results(election_id)
+
+    if not context:
+        return render(request, 'error.html', {'message': "Wybory sie jeszcze nie skonczyly"})
+
+    return render(request, 'electionResults.html', context)
+
+
+def generatePdf(request, election_id):
+    context = get_results(election_id)
+
+    if not context:
+        return render(request, 'error.html', {'message': "Wybory sie jeszcze nie skonczyly"})
+
+    pdf = render_to_pdf('pdf.html', context)
+    return HttpResponse(pdf, content_type='application/pdf')
+
+
+def isVotingTime(start, end):
+    if timezone.now() < start or timezone.now() > end:
+        return False
+    return True
+
+
+def isElectionsEnd(end):
+    return True if timezone.now() > end else False
+
+
+def get_results(election_id):
     election = Wybory.objects.get(pk=election_id)
 
     if not isElectionsEnd(election.koniecWyborow):
-        return render(request, 'error.html', {'message': "Wybory sie jeszcze nie skonczyly"})
+        return False
 
-    # liczba wszystkich glosow
     total_vote_count = Glos.objects.filter(wyboryId=election_id).count()
 
     election_people = OsobaWybory.objects.filter(wyboryId_id=election_id)
@@ -100,22 +130,11 @@ def election_results(request, election_id):
             'count': candidate_total_vote,
             'percent': percent
         })
-
-    # sortowanie malejace od liczby glosow
     candidates_and_votes.sort(key=lambda c: c['count'], reverse=True)
-    return render(request, 'electionResults.html', {
+    context = {
         'election': election,
         'candidates_vote_count': candidates_and_votes,
         'total_vote_count': total_vote_count,
         'turnouts': turnouts
-    })
-
-
-def isVotingTime(start, end):
-    if timezone.now() < start or timezone.now() > end:
-        return False
-    return True
-
-
-def isElectionsEnd(end):
-    return True if timezone.now() > end else False
+    }
+    return context

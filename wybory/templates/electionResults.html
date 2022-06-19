@@ -12,6 +12,11 @@
             {% endfor %}
             <hr>
             <p>Frekwencja wyborcza: {{ turnouts }}%</p>
+
+            <form method="get" action="{% url 'pdf' election.id %}">
+                <button type="submit" class="btn btn-primary">Generuj raport</button>
+            </form>
+
         </div>
     </div>
 {% endblock %}
