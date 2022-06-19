@@ -4,7 +4,7 @@
     <div class="container-fluid mt-5">
         <div class="col-6 offset-3">
             <h3>Głosujesz w wyborach: {{ election.nazwa }}</h3>
-            <p>Możesz zagłosować na max {{ election.maxWybranychKandydatow }} kandydatów</p>
+            <p>Maksymalna liczba głosów które możesz oddać: {{ election.maxWybranychKandydatow }}</p>
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}

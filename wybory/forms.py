@@ -6,9 +6,16 @@ from .models import Osoba
 class VoteForm(forms.Form):
     kandydaci = forms.ChoiceField()
 
-    def __init__(self, candidates, *args, **kwargs):
+    def __init__(self, candidates, election, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['kandydaci'] = forms.MultipleChoiceField(choices=candidates, widget=forms.CheckboxSelectMultiple)
+        self.election = election
+
+    def clean_kandydaci(self):
+        candidates = self.cleaned_data['kandydaci']
+        if len(candidates) > self.election.maxWybranychKandydatow:
+            raise forms.ValidationError(f"możesz zagłosować na max {self.election.maxWybranychKandydatow} kandydatów")
+
 
 
 

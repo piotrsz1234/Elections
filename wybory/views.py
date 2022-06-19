@@ -52,12 +52,10 @@ def vote(request, election_id):
     candidates = [(k.osobaId.id, f'{k.osobaId.imie} {k.osobaId.nazwisko}') for k in candidates_in_elections]
 
     if request.method == 'POST':
-        form = VoteForm(candidates, request.POST)
+        form = VoteForm(candidates, election, request.POST)
         if form.is_valid():
             kandydaci = form.cleaned_data['kandydaci']
-            if len(kandydaci) > election.maxWybranychKandydatow:
-                return render(request, 'error.html',
-                              {'message': f"możesz zagłosować na max {election.maxWybranychKandydatow} kandydatów"})
+
             # utworzenie glosu i go zapisanie w bazei
             for kandydat in kandydaci:
                 glos = Glos(wyboryId_id=election_id, kandydatOsobaId_id=kandydat)
@@ -68,7 +66,7 @@ def vote(request, election_id):
             user[0].save()
             return redirect('index')
     else:
-        form = VoteForm(candidates)
+        form = VoteForm(candidates, election)
 
     return render(request, 'vote.html', {'form': form, 'election': election})
 
