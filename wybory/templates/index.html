@@ -1,21 +1,93 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block staticFiles %}
+    <script src="{% static 'scripts/Index.js' %}"></script>
+    <link href="{% static 'styles/index.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
 
 {% block content %}
     <div>Welcome {{ user.imie }} {{ user.nazwisko }}</div>
-
-    {% for election in elections %}
-        <div class="card mt-2" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">{{ election.nazwa }}</h5>
-                <h6 class="card-subtitle mb-2 text-muted"></h6>
-                <p class="card-text">Od: {{ election.poczatekWyborow }}<br/>Do: {{ election.koniecWyborow }}</p>
-                {% if election.votingTime %}
-                    <a href="{% url 'vote' election.wyboryId %}" class="card-link">Głosuj</a>
-                {% endif %}
-                {% if election.electionsEnd %}
-                    <a href="{% url 'electionResults' election.wyboryId %}" class="card-link">Wyniki</a>
-                {% endif %}
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="old-elections" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+               aria-selected="true">Przeszłe wybory</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="current-elections" data-toggle="tab" href="#profile" role="tab"
+               aria-controls="profile" aria-selected="false">Trwające wybory</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="future-elections" data-toggle="tab" href="#contact" role="tab"
+               aria-controls="contact" aria-selected="false">Przyszłe wybory</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="old-elections">
+            <div class="list-group">
+                {% for election in elections %}
+                    {% if election.electionsEnd == True %}
+                        <div class="list-group-item list-group-item-action d-flex">
+                            <div class="col-11 pt-2">
+                                <span class="sp-election-name">
+                                     {{ election.nazwa }}
+                                </span>
+                            </div>
+                            <div class="col">
+                                <a href="{% url 'electionResults' election.wyboryId %}" class="btn btn-primary green">Wyniki</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
-    {% endfor %}
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="current-elections">
+            <div class="list-group">
+                {% for election in elections %}
+                    {% if election.votingTime == True %}
+                        <div class="list-group-item list-group-item-action d-flex">
+                            <div class="col-11 pt-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span class="sp-election-name">
+                                        {{ election.nazwa }}
+                                        </span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="sp-calc-time" data-time="{{ election.koniecWyborow }}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <a href="{% url 'vote' election.wyboryId %}" class="btn btn-primary green">Głosuj</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="future-elections">
+            <div class="list-group">
+                {% for election in elections %}
+                    {% if election.votingTime == False and election.electionsEnd == False %}
+                        <div class="list-group-item list-group-item-action d-flex">
+                            <div class="col-11 pt-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span class="sp-election-name">
+                                        {{ election.nazwa }}
+                                        </span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="sp-calc-time" data-time="{{ election.poczatekWyborow }}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
