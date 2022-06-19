@@ -15,7 +15,7 @@ class VoteForm(forms.Form):
         candidates = self.cleaned_data['kandydaci']
         if len(candidates) > self.election.maxWybranychKandydatow:
             raise forms.ValidationError(f"możesz zagłosować na max {self.election.maxWybranychKandydatow} kandydatów")
-
+        return candidates
 
 
 
