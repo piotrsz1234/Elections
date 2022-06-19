@@ -9,8 +9,12 @@
                 <h5 class="card-title">{{ election.nazwa }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"></h6>
                 <p class="card-text">Od: {{ election.poczatekWyborow }}<br/>Do: {{ election.koniecWyborow }}</p>
-                <a href="{% url 'vote' election.wyboryId %}" class="card-link">Głosuj</a>
-                <a href="{% url 'electionResults' election.wyboryId %}" class="card-link">Wyniki</a>
+                {% if election.votingTime %}
+                    <a href="{% url 'vote' election.wyboryId %}" class="card-link">Głosuj</a>
+                {% endif %}
+                {% if election.electionsEnd %}
+                    <a href="{% url 'electionResults' election.wyboryId %}" class="card-link">Wyniki</a>
+                {% endif %}
             </div>
         </div>
     {% endfor %}

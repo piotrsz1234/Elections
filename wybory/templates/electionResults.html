@@ -10,6 +10,8 @@
             {% for candidate in candidates_vote_count %}
                 <p>Kandydat: {{ candidate.name }} - {{ candidate.percent }}% ({{ candidate.count }} głosów)</p>
             {% endfor %}
+            <hr>
+            <p>Frekwencja wyborcza: {{ turnouts }}%</p>
         </div>
     </div>
 {% endblock %}
